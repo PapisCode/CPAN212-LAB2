@@ -34,3 +34,20 @@ app.get ('/callback', (req, res, next) => {
         res.json({ source: 'callback', data });
     });
 });
+
+// promise wrapper around the callback helper
+function simulateApiPromise(id) {
+    return new Promise((resolve, reject) => {
+        simulateApiCallback(id, (err, data) => {
+            if (err) return reject(err);
+            resolve(data);
+        });
+    });
+}
+
+app.get ('/promise', (req, res, next) => {
+    const id = Number(req.query.id ?? 2);
+    simulateApiPromise(id)
+        .then(data => res.json({ source: 'promise', data }))
+        .catch(next);
+});
