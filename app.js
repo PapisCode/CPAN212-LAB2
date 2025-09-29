@@ -26,3 +26,11 @@ function simulateApiCallback(id, cb) {
         } catch (err) { cb(err); }
     }, 1000);
 }
+// uses the callback helper
+app.get ('/callback', (req, res, next) => {
+    const id = Number(req.query.id ?? 1);
+    simulateApiCallback(id, (err, data) => {
+        if (err) return next(err);
+        res.json({ source: 'callback', data });
+    });
+});
