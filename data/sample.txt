@@ -1,0 +1,3 @@
+﻿Hello, this is Gabriel Hernandez completing Lab2. Welcome to my world.
+Line 2 = Developing my coding
+Line 3 = Bartender is my mask
