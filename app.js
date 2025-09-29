@@ -66,3 +66,23 @@ app.get ('/async', async (req, res, next) => {
         next(err);
     }
 });
+
+const fs = require('fs');
+const fsp = fs.promises;
+
+// reads file asynchronously  - default path = ./data/sample.txt
+app.get('/file', async (req, res, next) => {
+    const path = req.query.path || './data/sample.txt';
+    try {
+        const content = await fsp.readFile(path, 'utf8');
+        res.json({ path, legnth: content.length, content });
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            return res.status(404).json({
+                error: 'File Not Found',
+                hint: 'Create .data/sample.txt or pass ?path= to an existing file',
+            });
+        }
+        next(err);
+    }
+});
