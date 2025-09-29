@@ -15,3 +15,14 @@ app.use((err, req, res, next) => {
 // start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`Server on http://localhost:${PORT}`); });
+
+// callback-based fake API (with 1sec delay)
+function simulateApiCallback(id, cb) {
+    setTimeout(() => {
+        try {
+            if (!id && id !== 0) throw new Error('Missing id');
+            const data = { id, name: 'Gabriel Hernandez' };
+            cb(null, data);
+        } catch (err) { cb(err); }
+    }, 1000);
+}
