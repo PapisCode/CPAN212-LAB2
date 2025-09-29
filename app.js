@@ -51,3 +51,18 @@ app.get ('/promise', (req, res, next) => {
         .then(data => res.json({ source: 'promise', data }))
         .catch(next);
 });
+
+// async/await wrapper using the promise version
+async function simulateApiAsync(id) {
+    return await simulateApiPromise(id);
+}
+
+app.get ('/async', async (req, res, next) => {
+    try {
+        const id = Number(req.query.id ?? 3);
+        const data = await simulateApiAsync(id);
+        res.json({ source: 'async/await', data });
+    } catch (err) {
+        next(err);
+    }
+});
