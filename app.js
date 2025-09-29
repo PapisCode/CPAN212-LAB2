@@ -86,3 +86,22 @@ app.get('/file', async (req, res, next) => {
         next(err);
     }
 });
+
+function simulateDelay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+app.get('/chain', async (req, res, next) => {
+    try {
+        const steps = [];
+        await simulateDelay(300);
+        steps.push('Login complete');
+        await simulateDelay(300);
+        steps.push('Fetched user data');
+        await simulateDelay(300);
+        steps.push('Rendered UI');
+        res.json({ steps });
+    } catch (err) {
+        next(err);
+    }
+})
